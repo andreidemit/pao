@@ -24,8 +24,7 @@ o aplicație cu interfață grafică sau o aplicație Web, dar nu se va puncta s
     - se va asigura persistența datelor utilizând o bază de date relațională și JDBC 
     - să vor realiza operații de tip CRUD (Create, Read, Update și Delete) pentru cel puțin una dintre 
     -lasele utilizate 
-    - se va implementa facilitatea de înregistrare într-un fișier de tip CSV a fiecărei executări a uneia 
-dintre acțiunile aplicației, sub forma denumire_acțiune, data_și_ora  
+    - se va implementa facilitatea de înregistrare într-un fișier de tip CSV a fiecărei executări a uneia dintre acțiunile aplicației, sub forma denumire_acțiune, data_și_ora  
 
 - Tema 
     - Platforma de e-learning (Curs, Utilizator, Cursant, Temă, Test de verificare)  
