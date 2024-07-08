@@ -8,16 +8,22 @@ public class ElearningPlatform {
     private List<User> users;
     private List<Course> courses;
     private List<Assignment> assignments;
+    private List<Test> tests;
     private Map<String, String> actionLog;
+
+    private static final String ACTION_LOG_CSV = "data/action_log.csv";
     private static final String USERS_CSV = "data/users.csv";
     private static final String COURSES_CSV = "data/courses.csv";
     private static final String ASSIGNMENTS_CSV = "data/assignments.csv";
-    private static final String ACTION_LOG_CSV = "data/action_log.csv";
+    private static final String TESTS_CSV = "data/tests.csv";
+    
+
 
     public ElearningPlatform() {
         this.users = User.readUsersFromCSV(USERS_CSV);
         this.courses = Course.readCoursesFromCSV(COURSES_CSV);
         this.assignments = Assignment.readAssignmentsFromCSV(ASSIGNMENTS_CSV);
+        this.tests = Test.readTestsFromCSV(TESTS_CSV);
         this.actionLog = new HashMap<>();
     }
 
@@ -65,6 +71,13 @@ public class ElearningPlatform {
             logAction("createAssignment");
             System.out.println("Assignment created: " + assignmentName);
         }
+    }
+    
+    public void displayAvailableAssignments() {
+        for (Assignment assignment : assignments) {
+            System.out.println(assignment.getAssignmentName());
+        }
+        logAction("displayAvailableAssignments");
     }
 
     public void evaluateTest(String testId, String studentUsername) {
@@ -207,6 +220,9 @@ public class ElearningPlatform {
                     menuOptionEvaluateTest(scanner);
                     break;
                 case 11:
+                    menuOptionDisplayAvailableAssignments();                    
+                    break;
+                case 12:
                     exit = true;
                     System.out.println("Ieșire din aplicație.");
                     break;
@@ -232,7 +248,8 @@ public class ElearningPlatform {
         System.out.println("8. Eliminare temă");
         System.out.println("9. Creare test");
         System.out.println("10. Evaluare test");
-        System.out.println("11. Ieșire");
+        System.out.println("11. Afișare teme disponibile");
+        System.out.println("12. Ieșire");
     }
 
     private void menuOptionRegisterUser(Scanner scanner) {
@@ -283,6 +300,10 @@ public class ElearningPlatform {
         System.out.print("Introduceți nume temă: ");
         String assignmentName = scanner.nextLine();
         createAssignment(courseId, assignmentName);
+    }
+    
+    private void menuOptionDisplayAvailableAssignments() {
+        displayAvailableAssignments();        
     }
 
     private void menuOptionDeleteAssignment(Scanner scanner) {
