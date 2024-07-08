@@ -1,4 +1,3 @@
-package dev.unibuc.pao.source;
 import java.util.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,14 +7,17 @@ import java.time.format.DateTimeFormatter;
 public class ElearningPlatform {
     private List<User> users;
     private List<Course> courses;
+    private List<Assignment> assignments;
     private Map<String, String> actionLog;
     private static final String USERS_CSV = "data/users.csv";
     private static final String COURSES_CSV = "data/courses.csv";
+    private static final String ASSIGNMENTS_CSV = "data/assignments.csv";
     private static final String ACTION_LOG_CSV = "data/action_log.csv";
 
     public ElearningPlatform() {
         this.users = User.readUsersFromCSV(USERS_CSV);
         this.courses = Course.readCoursesFromCSV(COURSES_CSV);
+        this.assignments = Assignment.readAssignmentsFromCSV(ASSIGNMENTS_CSV);
         this.actionLog = new HashMap<>();
     }
 
@@ -58,8 +60,8 @@ public class ElearningPlatform {
         if (course != null) {
             String assignmentId = UUID.randomUUID().toString();
             Assignment assignment = new Assignment(assignmentId, assignmentName, courseId);
-            course.addAssignment(assignment);
-            Course.writeCoursesToCSV(COURSES_CSV, courses);
+            assignments.add(assignment);
+            Assignment.writeAssignmentsToCSV(ASSIGNMENTS_CSV, assignments);            
             logAction("createAssignment");
             System.out.println("Assignment created: " + assignmentName);
         }
@@ -131,6 +133,13 @@ public class ElearningPlatform {
     }
     
     public void registerUser(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                System.out.println("Username already exists: " + username);
+                return;
+            }
+        }
+
         User user = new User(username, password);
         users.add(user);
         User.writeUsersToCSV(USERS_CSV, users);
@@ -178,6 +187,7 @@ public class ElearningPlatform {
                     break;                    
                 case 4:
                     menuOptionCreateCourse(scanner);                   
+                    break;
                 case 5:                    
                     menuOptionEnrollStudent(scanner);
                     break;
@@ -192,6 +202,7 @@ public class ElearningPlatform {
                     break;
                 case 9:
                     menuOptionCreateTest(scanner);
+                    break;
                 case 10:
                     menuOptionEvaluateTest(scanner);
                     break;
